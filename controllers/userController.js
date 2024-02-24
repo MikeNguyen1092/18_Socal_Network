@@ -38,7 +38,8 @@ module.exports = {
 			return res.status(500).json({ message: 'Could not create User' }, err);
 		}
 	},
-
+  
+	// delete user
 	async deleteUser(req, res) {
 		try {
 			const user = await User.findOneAndDelete({ _id: req.params.userId });
