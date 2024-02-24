@@ -16,16 +16,16 @@ module.exports = {
   // get single user
 	async getSingleUser(req, res) {
 		try {
-			const singleUser = User.findOne({ _id: req.params.userId }).select('-__v').lean();
+			const singleUser = await User.findOne({ _id: req.params.userId }).select('-__v').lean();
 
 			if (!singleUser) {
 				return res.status(404).json({ message: 'No user with that ID' });
 			}
 
-			return res.json(user);
+			return res.json(singleUser);
 		} catch (err) {
 			console.log(err);
-			return res.status(500).json('message: Could not get Single User', err);
+			return res.status(500).json('message: Could not find Single User', err);
 		}
 	},
 
