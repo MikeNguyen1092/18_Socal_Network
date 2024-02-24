@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongoose').Types;
 const { User, Reaction, Thought } = require('../models');
 
 module.exports = {
@@ -13,7 +12,7 @@ module.exports = {
 		}
 	},
 
-  // get single user
+	// get single user
 	async getSingleUser(req, res) {
 		try {
 			const singleUser = await User.findOne({ _id: req.params.userId }).select('-__v').lean();
@@ -25,18 +24,28 @@ module.exports = {
 			return res.json(singleUser);
 		} catch (err) {
 			console.log(err);
-			return res.status(500).json('message: Could not find Single User', err);
+			return res.status(500).json({ message: 'Could not find Single User' }, err);
 		}
 	},
 
-  // create user
-  async createUser(req, res) {
-    try{
-      const user = await User.create(req.body);
+	// create user
+	async createUser(req, res) {
+		try {
+			const user = await User.create(req.body);
 			res.json(user);
-    } catch (err) {
+		} catch (err) {
 			console.log(err);
-			return res.status(500).json('message: Could not create User', err);
+			return res.status(500).json({ message: 'Could not create User' }, err);
 		}
-  }
+	},
+
+	async deleteUser(req, res) {
+		try {
+			const user = await User.findOneAndDelete({ _id: req.params.userId });
+			res.json({ message: 'User successfully deleted' });
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ message: 'Could not delete User' }, err);
+		}
+	},
 };
