@@ -1,4 +1,4 @@
-const { User, Reaction, Thought } = require('../models');
+const { User } = require('../models');
 
 module.exports = {
 	// get all users
@@ -61,7 +61,7 @@ module.exports = {
 				return res.status(404).json({ message: 'No friend found with that ID :(' });
 			}
 
-			res.json(user);
+			return res.json(user);
 		} catch (err) {
 			console.log(err);
 			return res.status(500).json({ message: 'Could not add friend to User' }, err);
@@ -76,7 +76,7 @@ module.exports = {
 				return res.status(404).json({ message: 'No Friend with this id!' });
 			}
 
-			res.json(user);
+			return res.json(user);
 		} catch (err) {
 			console.log(err);
 			return res.status(500).json({ message: 'Could not delete friend from User' }, err);
@@ -99,7 +99,7 @@ module.exports = {
 				return res.status(404).json({ message: 'No user with this id!' });
 			}
 
-			res.json(user);
+			return res.json(user);
 		} catch (err) {
 			console.log(err);
 			res.status(500).json(err);
