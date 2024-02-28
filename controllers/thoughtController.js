@@ -30,10 +30,10 @@ module.exports = {
 	async createThought(req, res) {
 		try {
 			const thought = await Thought.create(req.body);
-			const user = await User.findOneAndUpdate({ _id: req.body.userId }, { $push: { thoughts: thoughtData._id } }, { new: true });
+			const user = await User.findOneAndUpdate({ _id: req.body.userId }, { $push: { thoughts: thought._id } }, { new: true });
 
 			if (!user) {
-				return res.status(404).json({ message: 'No user with this id!' });
+				return res.status(404).json({ message: 'Line 36 No user with this id!' });
 			}
 			return res.json(thought);
 		} catch (err) {
@@ -73,7 +73,7 @@ module.exports = {
 				return res.status(404).json({ message: 'No user with this id!' });
 			}
 
-			return res.json({ message: 'Thought created!' });
+			return res.json({ message: 'Thought deleted!' });
 		} catch (err) {
 			console.log(err);
 			return res.status(500).json({ message: 'Could not delete thought' }, err);
