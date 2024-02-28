@@ -1,7 +1,7 @@
 const { User, Thought } = require('../models');
 
 module.exports = {
-	//
+	// all Thoughts
 	async getThoughts(req, res) {
 		try {
 			const thought = await Thought.find();
@@ -12,6 +12,7 @@ module.exports = {
 		}
 	},
 
+	// get single Thoughts
 	async getSingleThought(req, res) {
 		try {
 			const singleThought = await Thought.findOne({ _id: req.params.thoughtId });
@@ -27,6 +28,7 @@ module.exports = {
 		}
 	},
 
+	// create Thought
 	async createThought(req, res) {
 		try {
 			const thought = await Thought.create(req.body);
@@ -41,6 +43,7 @@ module.exports = {
 			return res.status(500).json({ message: 'Could not create thought' }, err);
 		}
 	},
+
 	// update thought by ID
 	async updateThought(req, res) {
 		try {
@@ -80,6 +83,7 @@ module.exports = {
 		}
 	},
 
+	// add reaction
 	async addReaction(req, res) {
 		try {
 			const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $addToSet: { reactions: req.body } }, { runValidators: true, new: true });
@@ -91,10 +95,12 @@ module.exports = {
 		}
 	},
 
+	// delete reaction
 	async removeReaction(req, res) {
 		try {
-			const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $pull: { reactions: { reactionId: req.params.reactionId }}}, { runValidators: true, new: true });
-			return res.json(thought)
+			const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $pull: { reactions: { reactionId: req.params.reactionId } } }, { runValidators: true, new: true });
+
+			return res.json(thought);
 		} catch (err) {
 			console.log(err);
 			return res.status(500).json({ message: 'Could not add reaction' }, err);
