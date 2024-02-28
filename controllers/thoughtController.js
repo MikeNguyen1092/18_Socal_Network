@@ -74,10 +74,30 @@ module.exports = {
 			}
 
 			return res.json({ message: 'Thought created!' });
-			
 		} catch (err) {
 			console.log(err);
 			return res.status(500).json({ message: 'Could not delete thought' }, err);
+		}
+	},
+
+	async addReaction(req, res) {
+		try {
+			const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $addToSet: { reactions: req.body } }, { runValidators: true, new: true });
+
+			return res.json(thought);
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ message: 'Could not add reaction' }, err);
+		}
+	},
+
+	async removeReaction(req, res) {
+		try {
+			const thought = await Thought.findOneAndUpdate({ _id: req.params.thoughtId }, { $pull: { reactions: { reactionId: req.params.reactionId }}}, { runValidators: true, new: true });
+			return res.json(thought)
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ message: 'Could not add reaction' }, err);
 		}
 	},
 };
